@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Civilian : MonoBehaviour {
 	GameObject target;
+	public static List<GameObject> walkers = new List<GameObject>();
 	List<GameObject> waypoints = new List<GameObject>();
 	public float speed = 10;
     float rotationSpeed = 0.25f;
-    Vector3 endPosition;
 
 	// Use this for initialization
 	void Start () {
+		Walker.civilians.Add(gameObject);
+		this.setWalkers();
 		this.setWaypoints();
 	}
 		
@@ -19,7 +21,28 @@ public class Civilian : MonoBehaviour {
 		if (!target || (target.transform.position - transform.position).magnitude < 2) {
 			target = getRandomWaypoint();
 		}
-		Seek();
+
+		GameObject walker = null;
+		foreach (var item in walkers) {
+			if (Vector3.Distance (item.transform.position, transform.position) < 20) {
+				walker = item;
+			}
+		}
+
+		if (walker) {
+			target = walker;
+			Flee();
+		} else {
+			Seek();
+		}
+	}
+
+	void setWalkers(){
+		var items = GameObject.FindGameObjectsWithTag("walker");
+
+		foreach (var item in items) {
+			walkers.Add(item);
+		}
 	}
 
 	void setWaypoints(){
@@ -36,9 +59,16 @@ public class Civilian : MonoBehaviour {
 	}
 
     void Seek() {
-		endPosition = target.transform.position - transform.position;
+		this.Move(target.transform.position - transform.position);
+	}
+
+	void Flee()	{
+		this.Move(-(target.transform.position - transform.position));
+	}
+
+	void Move(Vector3 endPosition){
 		transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
-        transform.position += transform.forward * speed * Time.deltaTime;
-    }
+		transform.position += transform.forward * speed * Time.deltaTime;
+	}
 
 }
