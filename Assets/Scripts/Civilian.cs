@@ -9,7 +9,7 @@ public class Civilian : MonoBehaviour {
 	List<GameObject> waypoints = new List<GameObject>();
 	float maxSpeed = 7;
 	float speed = 4;
-    float rotationSpeed = 0.25f;
+	float rotationSpeed = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -22,15 +22,17 @@ public class Civilian : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
+		var waypoint = getRandomWaypoint();
+
 		if (!target || (target.transform.position - transform.position).magnitude < 2) {
-			target = getRandomWaypoint();
+			target = waypoint;
 		}
 
 		GameObject closestWalker = null;
-		GameObject closestCivilian = null;
+		List<GameObject> closestsCivilians = new List<GameObject>();
 
 		foreach (var walker in walkers) {
-			if (Vector3.Distance (walker.transform.position, transform.position) < 20) {
+			if (Vector3.Distance (walker.transform.position, transform.position) < 15) {
 				closestWalker = walker;
 			}
 		}
@@ -40,19 +42,21 @@ public class Civilian : MonoBehaviour {
 //				if (Vector3.Distance (civilian.transform.position, transform.position) < 2 && 
 //					Vector3.Distance (closestWalker.transform.position, civilian.transform.position) < 2 && 
 //					Vector3.Distance (closestWalker.transform.position, transform.position) < 2) {
-//					closestCivilian = civilian;
-//					//this.KillState(closestWalker, civilian);
+//					closestsCivilians.Add(civilian);
 //				}
 //			}
 //
-//			if (closestWalker) {
+//			target = waypoint;
+//
+//			if (closestsCivilians.Count > 1) {
+//				this.KillState (closestWalker);
+//				this.WanderState();
+//			} else if (closestWalker) {
 //				target = closestWalker;
 //				this.FleeState ();
 //			} else {
 //				this.WanderState();
 //			}
-//			target = closestWalker;
-//			this.FleeState ();
 //		} else {
 //			this.WanderState();
 //		}
@@ -86,24 +90,22 @@ public class Civilian : MonoBehaviour {
 		return waypoints[rand];
 	}
 
-	void KillState(GameObject walker, GameObject closestCivilian){
-		//this.Move(walker.transform.position - transform.position);
-		//this.Move(walker.transform.position - closestCivilian.transform.position);
-		//walkers.Remove(walker);
-		//Destroy(walker.gameObject);
+	void KillState(GameObject walker){
+		walkers.Remove(walker);
+		Destroy(walker.gameObject);
 	}
 
 	void WanderState() {
-		this.Move(target.transform.position - transform.position);
+		this.Move(target.transform.position - transform.position, speed);
 	}
 
 	void FleeState()	{
-		this.Move(-(target.transform.position - transform.position));
+		this.Move(-(target.transform.position - transform.position), speed + 3);
 	}
 
-	void Move(Vector3 endPosition){
-		transform.forward = Vector3.Lerp(transform.forward, endPosition, Time.deltaTime);
-		transform.position += transform.forward * speed * Time.deltaTime;
+	void Move(Vector3 endPosition, float currentSpeed){
+		transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
+		transform.position += transform.forward * currentSpeed * Time.deltaTime;
 	}
 
 	float setRandomSpeed(){

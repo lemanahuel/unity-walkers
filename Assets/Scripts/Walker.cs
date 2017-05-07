@@ -9,7 +9,9 @@ public class Walker : MonoBehaviour {
 	List<GameObject> waypoints = new List<GameObject>();
 	float maxSpeed = 15;
 	float speed = 7;
-	float rotationSpeed = 0.25f;
+	float rotationSpeed = 1;
+
+
 	Vector3 endPosition;
 
 	// Use this for initialization
@@ -85,7 +87,7 @@ public class Walker : MonoBehaviour {
 	}
 
 	void Move(Vector3 endPosition){
-		transform.forward = Vector3.Lerp(transform.forward, endPosition, Time.deltaTime);
+		transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
 		transform.position += transform.forward * speed * Time.deltaTime;
 	}
 
