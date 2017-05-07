@@ -1,2 +1,2 @@
-# unity-zombies
+# unity-walkers
 TP1
