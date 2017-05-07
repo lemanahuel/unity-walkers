@@ -16,7 +16,9 @@ public class Civilian : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		target = getRandomWaypoint();
+		if (!target || (target.transform.position - transform.position).magnitude < 2) {
+			target = getRandomWaypoint();
+		}
 		Seek();
 	}
 
