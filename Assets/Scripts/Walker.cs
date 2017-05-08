@@ -11,7 +11,6 @@ public class Walker : MonoBehaviour {
 	float speed = 7;
 	float rotationSpeed = 1;
 
-
 	Vector3 endPosition;
 
 	// Use this for initialization
@@ -31,6 +30,7 @@ public class Walker : MonoBehaviour {
 
 		SeekState();
 	}
+		
 
 	void setCivilians(){
 		var items = GameObject.FindGameObjectsWithTag("civilian");
@@ -72,9 +72,11 @@ public class Walker : MonoBehaviour {
 	}
 
 	void InfectState(GameObject civilian){
-		Instantiate(newWalkerPrefab, civilian.transform.position, Quaternion.identity);
-		civilians.Remove(civilian);
-		Destroy(civilian.gameObject);
+		if (civilian.CompareTag("civilian")) {
+			Instantiate(newWalkerPrefab, civilian.transform.position, Quaternion.identity);
+			civilians.Remove(civilian);
+			Destroy(civilian.gameObject);
+		}
 	}
 
 	void SeekState() {
