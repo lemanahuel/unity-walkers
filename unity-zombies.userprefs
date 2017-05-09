@@ -1,10 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Civilian\WanderState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Civilian.cs">
     <Files>
       <File FileName="Assets\Scripts\Civilian\WanderState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Civilian.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Civilian.cs" Line="10" Column="20" />
       <File FileName="Assets\Scripts\CivilianState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Walker.cs" Line="11" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
