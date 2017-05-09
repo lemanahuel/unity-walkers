@@ -7,13 +7,18 @@ public class Civilian : MonoBehaviour {
 	public static List<GameObject> walkers = new List<GameObject>();
 	public static List<GameObject> civilians = new List<GameObject>();
 	List<GameObject> waypoints = new List<GameObject>();
-	float maxSpeed = 7;
+	float maxSpeed = 6;
 	float speed = 4;
-	float rotationSpeed = 1;
+	float rotationSpeed = 0.5f;
 	float amountOfKicks = 5;
+
+	StateMachine _sm;
 
 	// Use this for initialization
 	void Start () {
+		_sm = new StateMachine();
+		_sm.AddState(new WanderState(_sm, this));
+
 		this.setWaypoints();
 		this.speed = this.setRandomSpeed ();
 		Walker.civilians.Add(gameObject);
@@ -23,12 +28,13 @@ public class Civilian : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
+		GameObject waypoint = null;
+		GameObject closestWalker = null;
+		GameObject closestCivilian = null;
+
 		if (!target || (target.transform.position - transform.position).magnitude < 2) {
 			target = getRandomWaypoint();
 		}
-
-		GameObject closestWalker = null;
-		GameObject closestCivilian = null;
 
 		foreach (var walker in walkers) {
 			if (Vector3.Distance (walker.transform.position, transform.position) < 20) {
@@ -70,7 +76,8 @@ public class Civilian : MonoBehaviour {
 			target = closestWalker;
 			this.FleeState();
 		} else {
-			this.WanderState();
+			this.Wander();
+            //_sm.SetState<WanderState>();
 		}
 	}
 
@@ -95,10 +102,7 @@ public class Civilian : MonoBehaviour {
 		return waypoints[rand];
 	}
 
-
 	void KickState(GameObject walker){
-		//walkers.Remove(walker);
-		//Destroy(walker.gameObject);
 		int canKick = Random.Range(0, 1);
 
 		if (canKick != 0 && this.amountOfKicks > 0) {
@@ -106,18 +110,23 @@ public class Civilian : MonoBehaviour {
 			walker.transform.position -= walker.transform.forward * 3 * Time.deltaTime;
 		}
 		--this.amountOfKicks;
+		//walkers.Remove(walker);
+		//Destroy(walker.gameObject);
 	}
 
-	void WanderState() {
+	void Wander() {
+		// if (!target) {
+		// 	target = getRandomWaypoint ();
+		// }
 		this.Move(target.transform.position - transform.position, speed);
 	}
 
 	void FleeState()	{
-		this.Move(-(target.transform.position - transform.position), speed + 3);
+		this.Move(-(target.transform.position - transform.position), speed + 1);
 	}
 
 	void Move(Vector3 endPosition, float currentSpeed){
-		transform.forward = Vector3.Lerp(transform.forward, endPosition, Time.deltaTime);
+		transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
 		transform.position += transform.forward * currentSpeed * Time.deltaTime;
 	}
 
