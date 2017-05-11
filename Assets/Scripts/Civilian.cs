@@ -10,7 +10,7 @@ public class Civilian : MonoBehaviour {
 	float maxSpeed = 6;
 	float speed = 4;
 	float rotationSpeed = 0.5f;
-	float amountOfKicks = 5;
+	float amountOfPushs = 10;
 
 	StateMachine _sm;
 
@@ -40,9 +40,8 @@ public class Civilian : MonoBehaviour {
 			if (Vector3.Distance (walker.transform.position, transform.position) < 20) {
 				closestWalker = walker;
 				//closestCivilian = this.GetClosestCivilian();
-
-				if (Vector3.Distance (closestWalker.transform.position, transform.position) < 5) {
-					this.Kick(closestWalker);
+				if (Vector3.Distance (closestWalker.transform.position, transform.position) < 10) {
+					this.Push(closestWalker);
 				}
 			}
 		}
@@ -102,14 +101,15 @@ public class Civilian : MonoBehaviour {
 		return waypoints[rand];
 	}
 
-	void Kick(GameObject walker){
+	void Push(GameObject walker){
 		int canKick = Random.Range(0, 1);
 
-		if (canKick != 0 && this.amountOfKicks > 0) {
-			walker.transform.forward = Vector3.Lerp (walker.transform.forward, -(walker.transform.position), Time.deltaTime);
-			walker.transform.position -= walker.transform.forward * 3 * Time.deltaTime;
+		Debug.Log (this.amountOfPushs);
+		if (canKick != 0 && this.amountOfPushs > 0) {
+			walker.transform.forward = Vector3.Lerp (walker.transform.forward, -(target.transform.position - walker.transform.position), Time.deltaTime);
+			walker.transform.position += walker.transform.forward * 2 * Time.deltaTime;
+			--this.amountOfPushs;
 		}
-		--this.amountOfKicks;
 		//walkers.Remove(walker);
 		//Destroy(walker.gameObject);
 	}

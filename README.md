@@ -32,7 +32,7 @@ Utilizando Unity, deberá generar un simulador de epidemia Zombie en tiempo real
 - (X) Si el actor sano se encuentra a menos de 10 unidades de otro actor sano en el momento en que un Zombie lo atrapa, habrá una posibilidad (ej: 50%) de que los humanos empujen al Zombie hacia atrás. 
 - (X) El "empuje" constará de un movimiento en el sentido contrario al que el Zombie se estaba moviendo, el cual alejará al Zombie de su objetivo y deberá buscar otro a cual seguir.
 - (X) Tengan en cuenta que al momento de empujar al Zombie en la dirección contraria a la que se estaba moviendo, deberán frenar el movimiento natural del mismo.
-	- #### Comentario: El metodo Kick y valida que puede hacer 10 patadas
+	- #### Comentario: El metodo Push y adicionalmente valida que puede hacer 10 patadas
 	- #### Comentario: El movimiento no quedo prolijo
 
 ## Pautas de evaluación:
