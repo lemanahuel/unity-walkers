@@ -1,5 +1,8 @@
 # unity-walkers
 
+Nahuel Lema
+lema.nahuel@gmail.com
+
 ## Trabajo Práctico Nº1 (1ºer parcial)
 
 Utilizando Unity, deberá generar un simulador de epidemia Zombie en tiempo real, implementando los algoritmos de Steering Behaviors, State Machines (FSM) y sus conocimiento en OOP.

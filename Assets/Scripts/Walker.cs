@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Walker : MonoBehaviour {
 	GameObject target;
@@ -30,7 +31,6 @@ public class Walker : MonoBehaviour {
 
 		SeekState();
 	}
-		
 
 	void setCivilians(){
 		var items = GameObject.FindGameObjectsWithTag("civilian");
