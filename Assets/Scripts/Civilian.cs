@@ -42,7 +42,7 @@ public class Civilian : MonoBehaviour {
 				//closestCivilian = this.GetClosestCivilian();
 
 				if (Vector3.Distance (closestWalker.transform.position, transform.position) < 5) {
-					this.KickState(closestWalker);
+					this.Kick(closestWalker);
 				}
 			}
 		}
@@ -74,7 +74,7 @@ public class Civilian : MonoBehaviour {
 
 		if (closestWalker) {
 			target = closestWalker;
-			this.FleeState();
+			this.Flee();
 		} else {
 			this.Wander();
             //_sm.SetState<WanderState>();
@@ -102,7 +102,7 @@ public class Civilian : MonoBehaviour {
 		return waypoints[rand];
 	}
 
-	void KickState(GameObject walker){
+	void Kick(GameObject walker){
 		int canKick = Random.Range(0, 1);
 
 		if (canKick != 0 && this.amountOfKicks > 0) {
@@ -121,7 +121,7 @@ public class Civilian : MonoBehaviour {
 		this.Move(target.transform.position - transform.position, speed);
 	}
 
-	void FleeState()	{
+	void Flee()	{
 		this.Move(-(target.transform.position - transform.position), speed + 1);
 	}
 
