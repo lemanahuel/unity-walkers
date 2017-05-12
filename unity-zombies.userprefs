@@ -1,17 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Civilian.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StateMachine\State.cs">
     <Files>
-      <File FileName="Assets\Scripts\Civilian\WanderState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Civilian.cs" Line="30" Column="18" />
-      <File FileName="Assets\Scripts\CivilianState.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Walker.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\StateMachine\State.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Civilian\FleeState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\StateMachine\State.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\Civilian.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="D:\unity-projects\unity-zombies\Assets\Scripts\Civilian\WanderState.cs" line="24" column="1" />
+      <Breakpoint file="D:\unity-projects\unity-zombies\Assets\Scripts\Civilian\WanderState.cs" line="29" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -4,41 +4,44 @@ using UnityEngine;
 
 public class WanderState : CivilianState {
 
+	GameObject target = null;
 	private List<GameObject> waypoints = new List<GameObject>();
-	private float _rotationSpeed = 0.5f;
-	private float _speed = 4;
 
 	public WanderState(StateMachine sm, Civilian c) : base(sm, c)  {
+
     }
 
-    public override void Awake()
-    {
-        Debug.Log("Entró a Run");
+    public override void Awake() {
+        //Debug.Log("Entró a WanderState");
         base.Awake();
+		setWaypoints();
     }
 
-    public override void Execute()
-    {
+    public override void Execute() {
+		//Debug.Log("Execute WanderState");
         base.Execute();
-		GameObject target = getRandomWaypoint ();
-		//civilian.transform.position += civilian.transform.forward * _speed * Time.deltaTime;
+
+		if (!target || (target.transform.position - civilian.transform.position).magnitude < 2) {
+			target = getRandomWaypoint();
+		}
+		
 		Vector3 endPosition = target.transform.position - civilian.transform.position;
-		civilian.transform.forward = Vector3.Lerp(civilian.transform.forward, endPosition, _rotationSpeed * Time.deltaTime);
-		civilian.transform.position += civilian.transform.forward * _speed * Time.deltaTime;
-		//civilian.transform.position += civilian.transform.forward * _speed * Time.deltaTime;
+		civilian.transform.forward = Vector3.Lerp(civilian.transform.forward, endPosition, civilian.rotationSpeed * Time.deltaTime);
+		civilian.transform.position += civilian.transform.forward * civilian.speed * Time.deltaTime;
     }
 
-    public override void Sleep()
-    {
+    public override void Sleep() {
         base.Sleep();
-        Debug.Log("Salió de Run");
+        //Debug.Log("Salió de WanderState");
     }
 
 	void setWaypoints(){
-		var items = GameObject.FindGameObjectsWithTag("waypoint");
+		if (waypoints.Count == 0) {
+			var items = GameObject.FindGameObjectsWithTag("waypoint");
 
-		foreach (var item in items) {
-			waypoints.Add(item);
+			foreach (var item in items) {
+				waypoints.Add(item);
+			}
 		}
 	}
 

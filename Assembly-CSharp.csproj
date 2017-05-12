@@ -47,10 +47,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Civilian.cs" />
+     <Compile Include="Assets\Scripts\Civilian\CivilianState.cs" />
+     <Compile Include="Assets\Scripts\Civilian\FleeState.cs" />
      <Compile Include="Assets\Scripts\Civilian\WanderState.cs" />
-     <Compile Include="Assets\Scripts\CivilianState.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
      <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
+     <Compile Include="Assets\Scripts\SteeringBehaviours\Flee.cs" />
+     <Compile Include="Assets\Scripts\SteeringBehaviours\Seek.cs" />
      <Compile Include="Assets\Scripts\Walker.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
