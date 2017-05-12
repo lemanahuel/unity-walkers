@@ -13,10 +13,10 @@ Utilizando Unity, deberá generar un simulador de epidemia Zombie en tiempo real
 - (X) Debe haber una diferencia visual significativa entre Zombies y actores sanos (ej: cubos rojos vs cilindros azules).
 - (X) Los actores sanos se moverán a una velocidad de 5 y los Zombies a una velodidad de 7.
 	- #### Comentario: Cree un metodo para generar una velocidad random entre maximos y minimo al crearse los gameObject
-- (0) Los actores sanos en escena deberán implementar una FSM la cual dirigirá las transiciones de estados y actualizaciones de movimientos basados en los steering behaviors. 
-- (0) La state machine de los actores sanos deberá tener al menos 2 estados, wanderState: cuando se encuentra caminando hacia algún punto, fleeState: cuando se encuentra huyendo de un Zombie.
+- (X) Los actores sanos en escena deberán implementar una FSM la cual dirigirá las transiciones de estados y actualizaciones de movimientos basados en los steering behaviors. 
+- (X) La state machine de los actores sanos deberá tener al menos 2 estados, wanderState: cuando se encuentra caminando hacia algún punto, fleeState: cuando se encuentra huyendo de un Zombie.
 	
-	- #### Comentario: El codigo esta pero no logre estabilizarlo
+	- #### Comentario: El codigo esta pero no logre estabilizarlo y esta desprolijo.
 
 - (X) Cada Zombie deberá seleccionar un objetivo sano (aleatoriamente) y perseguirlo mediante el steering behavior "SEEK".
 
