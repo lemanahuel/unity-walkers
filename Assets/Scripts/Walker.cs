@@ -8,11 +8,12 @@ public class Walker : MonoBehaviour {
 	public GameObject newWalkerPrefab;
 	public static List<GameObject> civilians = new List<GameObject>();
 	List<GameObject> waypoints = new List<GameObject>();
-	float maxSpeed = 15;
-	float speed = 7;
-	float rotationSpeed = 1;
-
+	public float maxSpeed = 15;
+	public float speed = 7;
+	public float rotationSpeed = 1;
 	Vector3 endPosition;
+
+	StateMachine _sm;
 
 	// Use this for initialization
 	void Start () {
@@ -20,16 +21,21 @@ public class Walker : MonoBehaviour {
 		Civilian.walkers.Add(gameObject);
 		//this.setCivilians();
 		this.setWaypoints();
+
+		_sm = new StateMachine();
+		_sm.AddState(new SeekState(_sm, this));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!target || (target.transform.position - transform.position).magnitude < 2) {
-			//target = GetRandomCivilian();
-			target = GetClosestCivilian();
-		}
+		// if (!target || (target.transform.position - transform.position).magnitude < 2) {
+		// 	//target = GetRandomCivilian();
+		// 	target = GetClosestCivilian();
+		// }
 
-		SeekState();
+		//SeekState();
+		_sm.SetState<SeekState>();
+		_sm.Update();
 	}
 
 	void setCivilians(){
@@ -71,7 +77,7 @@ public class Walker : MonoBehaviour {
 		return closest;
 	}
 
-	void InfectState(GameObject civilian){
+	public void InfectState(GameObject civilian){
 		if (civilian.CompareTag("civilian")) {
 			Instantiate(newWalkerPrefab, civilian.transform.position, Quaternion.identity);
 			civilians.Remove(civilian);
@@ -79,19 +85,19 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
-	void SeekState() {
-		if (!target) {
-			this.speed = 3;
-			target = getRandomWaypoint();
-		}
+	// void SeekState() {
+	// 	if (!target) {
+	// 		this.speed = 3;
+	// 		target = getRandomWaypoint();
+	// 	}
 
-		this.Move (target.transform.position - transform.position);
-	}
+	// 	this.Move (target.transform.position - transform.position);
+	// }
 
-	void Move(Vector3 endPosition){
-		transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
-		transform.position += transform.forward * speed * Time.deltaTime;
-	}
+	// void Move(Vector3 endPosition){
+	// 	transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
+	// 	transform.position += transform.forward * speed * Time.deltaTime;
+	// }
 
 	void SetSpeed(int value){
 		this.speed = value;
@@ -105,7 +111,7 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
-	GameObject getRandomWaypoint(){
+	public GameObject getRandomWaypoint(){
 		int rand = Random.Range(0, waypoints.Count);
 		return waypoints[rand];
 	}

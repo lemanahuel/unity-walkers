@@ -55,6 +55,8 @@
      <Compile Include="Assets\Scripts\SteeringBehaviours\Flee.cs" />
      <Compile Include="Assets\Scripts\SteeringBehaviours\Seek.cs" />
      <Compile Include="Assets\Scripts\Walker.cs" />
+     <Compile Include="Assets\Scripts\Walker\SeekState.cs" />
+     <Compile Include="Assets\Scripts\Walker\WalkerState.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
