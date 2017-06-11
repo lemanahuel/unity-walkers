@@ -9,7 +9,7 @@ public class Civilian : MonoBehaviour {
 	List<GameObject> waypoints = new List<GameObject>();
 	float maxSpeed = 7;
 	public float speed = 4;
-	public float rotationSpeed = 0.5f;
+	public float rotationSpeed = 1f;
 	float amountOfPushs = 10;
 
 	public float thrust;
@@ -58,10 +58,8 @@ public class Civilian : MonoBehaviour {
 
 		if (closestWalker) {
 			//target = closestWalker;
-			//this.Flee();
       _sm.SetState<FleeState>();
 		} else {
-			//this.Wander();
       _sm.SetState<WanderState>();
 		}
 		_sm.Update();

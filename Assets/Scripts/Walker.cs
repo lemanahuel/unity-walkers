@@ -10,7 +10,7 @@ public class Walker : MonoBehaviour {
 	List<GameObject> waypoints = new List<GameObject>();
 	public float maxSpeed = 15;
 	public float speed = 7;
-	public float rotationSpeed = 1;
+	public float rotationSpeed = 1f;
 	Vector3 endPosition;
 	public float thrust;
 	public Rigidbody rb;
@@ -29,15 +29,10 @@ public class Walker : MonoBehaviour {
 		_sm.AddState(new SeekState(_sm, this));
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		// if (!target || (target.transform.position - transform.position).magnitude < 2) {
-		// 	//target = GetRandomCivilian();
-		// 	target = GetClosestCivilian();
-		// }
-
-		//SeekState();
-		_sm.SetState<SeekState>();
+		if (!target) {
+			_sm.SetState<SeekState>();
+		}
 		_sm.Update();
 	}
 
@@ -45,66 +40,35 @@ public class Walker : MonoBehaviour {
 		rb.AddForce(0,0,0);
 	}
 
-	void setCivilians(){
-		var items = GameObject.FindGameObjectsWithTag("civilian");
-
-		foreach (var item in items) {
-			civilians.Add(item);
+	public GameObject GetClosestCivilian (GameObject target) {
+		if (target) {
+			InfectState(target);
 		}
+
+		GameObject closest = null;
+		float closestDistanceSqr = Mathf.Infinity;
+		Vector3 currentPosition = transform.position;
+
+		foreach(GameObject civilian in civilians) {
+			Vector3 directionToClosest = civilian.transform.position - currentPosition;
+			float dSqrToClosest = directionToClosest.sqrMagnitude;
+
+			if(dSqrToClosest < closestDistanceSqr) {
+				closestDistanceSqr = dSqrToClosest;
+				closest = civilian;
+			}
+		}
+
+		return closest;
 	}
 
-	// GameObject GetRandomCivilian() {
-	// 	if(target) {
-	// 		//this.InfectState(target);
-	// 	}
-
-	// 	int rand = Random.Range(0, civilians.Count);
-	// 	return civilians[rand];
-	// }
-
-	// GameObject GetClosestCivilian () {
-	// 	if(target) {
-	// 		this.InfectState(target);
-	// 	}
-
-	// 	GameObject closest = null;
-	// 	float closestDistanceSqr = Mathf.Infinity;
-	// 	Vector3 currentPosition = transform.position;
-
-	// 	foreach(GameObject civilian in civilians) {
-	// 		Vector3 directionToClosest = civilian.transform.position - currentPosition;
-	// 		float dSqrToClosest = directionToClosest.sqrMagnitude;
-
-	// 		if(dSqrToClosest < closestDistanceSqr) {
-	// 			closestDistanceSqr = dSqrToClosest;
-	// 			closest = civilian;
-	// 		}
-	// 	}
-
-	// 	return closest;
-	// }
-
 	public void InfectState(GameObject civilian){
-		if (civilian.CompareTag("civilian")) {
+		if (civilian.CompareTag("civilian") && (civilian.transform.position - transform.position).magnitude < 2) {
 			Instantiate(newWalkerPrefab, civilian.transform.position, Quaternion.identity);
 			civilians.Remove(civilian);
 			Destroy(civilian.gameObject);
 		}
 	}
-
-	// void SeekState() {
-	// 	if (!target) {
-	// 		this.speed = 3;
-	// 		target = getRandomWaypoint();
-	// 	}
-
-	// 	this.Move (target.transform.position - transform.position);
-	// }
-
-	// void Move(Vector3 endPosition){
-	// 	transform.forward = Vector3.Lerp(transform.forward, endPosition, rotationSpeed * Time.deltaTime);
-	// 	transform.position += transform.forward * speed * Time.deltaTime;
-	// }
 
 	void SetSpeed(int value){
 		this.speed = value;
