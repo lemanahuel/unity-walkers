@@ -12,10 +12,14 @@ public class Civilian : MonoBehaviour {
 	public float rotationSpeed = 0.5f;
 	float amountOfPushs = 10;
 
+	public float thrust;
+	public Rigidbody rb;
+
 	StateMachine _sm;
 
 	// Use this for initialization
 	void Start () {
+		rb = GetComponent<Rigidbody>();
 		this.setWaypoints();
 		this.speed = this.setRandomSpeed();
 		Walker.civilians.Add(gameObject);
@@ -26,6 +30,10 @@ public class Civilian : MonoBehaviour {
 		_sm.AddState(new WanderState(_sm, this));
 		_sm.AddState(new FleeState(_sm, this));
 	}
+
+	void FixedUpdate(){
+			rb.AddForce(0,0,0);
+	}
 		
 	// Update is called once per frame
 	void Update () {
@@ -34,7 +42,7 @@ public class Civilian : MonoBehaviour {
 		GameObject closestWalker = null;
 		GameObject closestCivilian = null;
 
-		if (!target || (target.transform.position - transform.position).magnitude < 2) {
+		if (!target || Vector3.Distance(target.transform.position, transform.position) < 2) {
 			target = getRandomWaypoint();
 		}
 
@@ -44,7 +52,7 @@ public class Civilian : MonoBehaviour {
 				//closestCivilian = this.GetClosestCivilian();
 			}
 			if (Vector3.Distance (walker.transform.position, transform.position) < 10) {
-				this.Push(walker);
+				//this.Push(walker);
 			}
 		}
 
@@ -85,7 +93,9 @@ public class Civilian : MonoBehaviour {
 
 		if (canKick != 0 && this.amountOfPushs > 0) {
 			walker.transform.forward = Vector3.Lerp (walker.transform.forward, -(target.transform.position - walker.transform.position), Time.deltaTime);
-			walker.transform.position += walker.transform.forward * 2 * Time.deltaTime;
+			Vector3 finalMove = walker.transform.forward * 2 * Time.deltaTime;
+			//finalMove.z = 0;
+			walker.transform.position += finalMove;
 			--this.amountOfPushs;
 		}
 		//walkers.Remove(walker);
@@ -96,21 +106,21 @@ public class Civilian : MonoBehaviour {
 		return Random.Range(this.speed, this.maxSpeed);
 	}
 
-	GameObject GetClosestCivilian () {
-		GameObject closest = null;
-		float closestDistanceSqr = Mathf.Infinity;
-		Vector3 currentPosition = transform.position;
+	// GameObject GetClosestCivilian () {
+	// 	GameObject closest = null;
+	// 	float closestDistanceSqr = Mathf.Infinity;
+	// 	Vector3 currentPosition = transform.position;
 
-		foreach(GameObject civilian in civilians) {
-			Vector3 directionToClosest = civilian.transform.position - currentPosition;
-			float dSqrToClosest = directionToClosest.sqrMagnitude;
+	// 	foreach(GameObject civilian in civilians) {
+	// 		Vector3 directionToClosest = civilian.transform.position - currentPosition;
+	// 		float dSqrToClosest = directionToClosest.sqrMagnitude;
 
-			if(dSqrToClosest < closestDistanceSqr) {
-				closestDistanceSqr = dSqrToClosest;
-				closest = civilian;
-			}
-		}
+	// 		if(dSqrToClosest < closestDistanceSqr) {
+	// 			closestDistanceSqr = dSqrToClosest;
+	// 			closest = civilian;
+	// 		}
+	// 	}
 
-		return closest;
-	}
+	// 	return closest;
+	// }
 }

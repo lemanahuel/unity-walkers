@@ -14,14 +14,14 @@ public class SeekState : WalkerState {
     public override void Awake() {
         //Debug.Log("Entró a FleeState");
         base.Awake();
-		setCivilians();
+				setCivilians();
     }
 
     public override void Execute() {
 		//Debug.Log("Execute FleeState");
         base.Execute();
 		
-		if (!target || (target.transform.position - walker.transform.position).magnitude < 2) {
+		if (!target || Vector3.Distance(target.transform.position, walker.transform.position) < 2) {
 			//target = GetRandomCivilian();
 			target = GetClosestCivilian();
 		}
@@ -32,7 +32,9 @@ public class SeekState : WalkerState {
 		}
 
 		walker.transform.forward = Vector3.Lerp(walker.transform.forward, target.transform.position - walker.transform.position, walker.rotationSpeed * Time.deltaTime);
-		walker.transform.position += walker.transform.forward * walker.speed * Time.deltaTime;
+		Vector3 newPos =  walker.transform.forward * walker.speed * Time.deltaTime;
+		//newPos.z = 0;
+		walker.transform.position += newPos;
     }
 
     public override void Sleep() {
@@ -49,14 +51,14 @@ public class SeekState : WalkerState {
 		}
 	}
 
-	GameObject GetRandomCivilian() {
-		if(target) {
-			walker.InfectState(target);
-		}
+	// GameObject GetRandomCivilian() {
+	// 	if(target) {
+	// 		//walker.InfectState(target);
+	// 	}
 
-		int rand = Random.Range(0, civilians.Count);
-		return civilians[rand];
-	}
+	// 	int rand = Random.Range(0, civilians.Count);
+	// 	return civilians[rand];
+	// }
 
 	GameObject GetClosestCivilian () {
 		if (target) {

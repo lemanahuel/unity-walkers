@@ -12,11 +12,14 @@ public class Walker : MonoBehaviour {
 	public float speed = 7;
 	public float rotationSpeed = 1;
 	Vector3 endPosition;
+	public float thrust;
+	public Rigidbody rb;
 
 	StateMachine _sm;
 
 	// Use this for initialization
 	void Start () {
+		rb = GetComponent<Rigidbody>();
 		this.speed = this.setRandomSpeed ();
 		Civilian.walkers.Add(gameObject);
 		//this.setCivilians();
@@ -38,6 +41,10 @@ public class Walker : MonoBehaviour {
 		_sm.Update();
 	}
 
+	void FixedUpdate(){
+		rb.AddForce(0,0,0);
+	}
+
 	void setCivilians(){
 		var items = GameObject.FindGameObjectsWithTag("civilian");
 
@@ -46,36 +53,36 @@ public class Walker : MonoBehaviour {
 		}
 	}
 
-	GameObject GetRandomCivilian() {
-		if(target) {
-			this.InfectState(target);
-		}
+	// GameObject GetRandomCivilian() {
+	// 	if(target) {
+	// 		//this.InfectState(target);
+	// 	}
 
-		int rand = Random.Range(0, civilians.Count);
-		return civilians[rand];
-	}
+	// 	int rand = Random.Range(0, civilians.Count);
+	// 	return civilians[rand];
+	// }
 
-	GameObject GetClosestCivilian () {
-		if(target) {
-			this.InfectState(target);
-		}
+	// GameObject GetClosestCivilian () {
+	// 	if(target) {
+	// 		this.InfectState(target);
+	// 	}
 
-		GameObject closest = null;
-		float closestDistanceSqr = Mathf.Infinity;
-		Vector3 currentPosition = transform.position;
+	// 	GameObject closest = null;
+	// 	float closestDistanceSqr = Mathf.Infinity;
+	// 	Vector3 currentPosition = transform.position;
 
-		foreach(GameObject civilian in civilians) {
-			Vector3 directionToClosest = civilian.transform.position - currentPosition;
-			float dSqrToClosest = directionToClosest.sqrMagnitude;
+	// 	foreach(GameObject civilian in civilians) {
+	// 		Vector3 directionToClosest = civilian.transform.position - currentPosition;
+	// 		float dSqrToClosest = directionToClosest.sqrMagnitude;
 
-			if(dSqrToClosest < closestDistanceSqr) {
-				closestDistanceSqr = dSqrToClosest;
-				closest = civilian;
-			}
-		}
+	// 		if(dSqrToClosest < closestDistanceSqr) {
+	// 			closestDistanceSqr = dSqrToClosest;
+	// 			closest = civilian;
+	// 		}
+	// 	}
 
-		return closest;
-	}
+	// 	return closest;
+	// }
 
 	public void InfectState(GameObject civilian){
 		if (civilian.CompareTag("civilian")) {

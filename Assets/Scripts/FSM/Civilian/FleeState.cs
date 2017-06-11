@@ -31,7 +31,7 @@ public class FleeState : CivilianState {
 
 		if (closestWalker) { 
 			Vector3 endPosition = -(closestWalker.transform.position - civilian.transform.position);
-			civilian.transform.forward = Vector3.Lerp(civilian.transform.forward, endPosition, civilian.rotationSpeed * Time.deltaTime);
+			civilian.transform.forward = Vector3.Lerp (civilian.transform.forward, endPosition, civilian.rotationSpeed * Time.deltaTime);
 			civilian.transform.position += civilian.transform.forward * civilian.speed * Time.deltaTime;
 		}
     }
